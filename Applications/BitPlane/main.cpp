@@ -10,10 +10,10 @@ int main (int argc, char** argv)
 
   Log::configure (true, false, 0);
 
-  GenericInterface m;
-  int serviceId = m.addService(new BitPlaneService);
+  GenericInterface m("BitPlane");
+  m.addService(new BitPlaneService);
 
-  m.run ();
+  m.run();
 
   return app.exec ();
 }

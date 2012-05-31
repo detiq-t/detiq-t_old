@@ -4,6 +4,7 @@
 #include <Algorithm/MorphoMat.h>
 
 #include <Services/AlgorithmService.h>
+#include "../Widgets/StructElemWindow.h"
 
 #include <QToolBar>
 
@@ -31,7 +32,6 @@ namespace genericinterface
         void checkActionsValid(QMdiSubWindow* activeWindow);
 
       private:
-        QToolBar* _toolBar;
         imagein::MorphoMat::StructElem<depth_default_t>* _structElem; 
         QAction* _editStructElem;
 	    QAction* _erosion;
@@ -44,6 +44,7 @@ namespace genericinterface
 	    QAction* _wtophat;
 	    QAction* _btophat;
         void applyOperator(MorphoMat::Operator<depth_default_t>& op);
+        StructElemWindow* _structElemWindow;
     };
 }
 

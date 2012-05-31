@@ -21,8 +21,22 @@ BitPlaneWindow::BitPlaneWindow(const QString & path, GenericInterface* gi, Image
 
 void BitPlaneWindow::changeMask()
 {
-  BitPlane<Image> bp = BitPlane<Image>(_bitplanechoice->getMask());
+  uint8_t m = _bitplanechoice->getMask();
+  BitPlane<Image> bp = BitPlane<Image>(m);
   Image* image = bp(_workImg);
+  if(m!=0) {
+    unsigned int w = image->getWidth();
+    unsigned int h = image->getHeight();
+    unsigned int c = image->getNbChannels();
+    unsigned int i,j,k;
+    for(i=0;i<w;i++) {
+      for(j=0;j<h;j++) {
+        for(k=0;k<c;k++) {
+          image->setPixel(i,j,k,image->getPixel(i,j,k)*255/m);
+        }
+      }
+    }
+  }
   setImage(image);
   std::string newTitle = "Image with bit plane ";
   newTitle+=(_bitplanechoice->getStrMask()).toStdString();

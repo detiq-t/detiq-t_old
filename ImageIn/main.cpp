@@ -1,51 +1,45 @@
 #include <list>
 #include "Image.h"
+#include "Converter.h"
 #include "Algorithm/Otsu.h"
-#include "Algorithm/MorphoMat.h"
+#include "Algorithm/Dithering.h"
+#include "Algorithm/EdgeColoration.h"
+#include "Algorithm/Filtering.h"
+#include "Algorithm/RgbToGrayscale.h"
+#include "Converter.h"
+
+#include <ctime>
 
 using namespace imagein;
 using namespace imagein::algorithm;
 using namespace std;
 
-/*
-int main()
+int main(int argc, char** argv)
 {
-	for(list<int>::const_iterator it = l.begin() ; it != l.end() ; ++it) {
-		cout << *it << " ";
-	}
-	cout << endl;
+  srand(time(NULL));
+  vector<Filter*> fls =  Filter::sobel();
+  
+  Filtering c1(fls[0]);
+  Filtering c2(fls[1]);
+
+  EdgeColoration_t<Image_t<int>, 2> ec;
+
+  Image* i          = new Image("samples/de.jpg");
+  RgbToGrayscale algo;
+  Image* img        = algo(i);
+  Image_t<int>* i1  = c1(Converter<Image>::convertToInt(*img));
+  Image_t<int>* i2  = c2(Converter<Image>::convertToInt(*img));
+  Image_t<int>* res = ec(i1, i2);
+
+  Converter<Image>::makeDisplayable(*res)->save("test.png");
+}
+
+/*
+int main(int argc, char** argv)
+{
+    Image img("samples/test_dithering.png");
+
+    Dithering d;
+
+    d(Converter<GrayscaleImage>::convert(img))->save("samples/result_dithering.png");
 }*/
-int main(int argc, char** argv)
-{}
-
-/*
-int main(int argc, char** argv)
-{
-
-
-	Image_t<depth8_t> img("samples/lena.jpg");
-
-    bool elem[] = {
-        false, true, false,
-        true,  true, true,
-        false, true, false
-    };
-
-    MorphoMat::StructElem<depth8_t> structElem(GrayscaleImage_t<bool>(3, 3, elem), 1, 1);
-    MorphoMat::Gradient<depth8_t> grad(structElem);
-    Image *res = grad(&img);
-    res->save("morpho.jpg");
-
-    return 0;
-}
-
-#ifdef AUTREMAIN
-int main(int argc, char* argv[])
-{
-	GrayscaleImage img("samples/test.png");
-	
-	Image* im_binaire = o(&im);
-	im_binaire->save("samples/test.jpg");
-	delete im_binaire;
-}
-*/

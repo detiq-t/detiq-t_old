@@ -121,7 +121,7 @@ void StandardImageWindow::showPixelsGrid()
  
     WindowService* ws = dynamic_cast<WindowService*>(_gi->getService(GenericInterface::WINDOW_SERVICE));
     QString id = ws->getWidgetId(this);
-    GridWindow* grid = new GridWindow(id, this);
+    GridWindow* grid = new GridWindow(id, _imageView->getImage(), this);
     ws->addWidget(id, grid);
 }
 
@@ -300,7 +300,11 @@ void StandardImageWindow::showHoveredPixelInformations(int x, int y) const
 	for(unsigned int i = 0; i < im->getNbChannels(); i++)
 	{
 		oss.str("");
-		oss << (unsigned int) im->getPixel(x, y, i);
+		try {
+			oss << (unsigned int) im->getPixel(x, y, i);
+		}
+		catch(std::out_of_range&) {
+		}
 		_lHoveredPixelColor->setText(_lHoveredPixelColor->text() + QString::fromStdString(" " + oss.str()));
 	}
 }

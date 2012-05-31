@@ -12,10 +12,10 @@ int main (int argc, char** argv)
 
   Log::configure (true, false, 0);
 
-  GenericInterface m;
-  int serviceId = m.addService(new FilteringService);
+  GenericInterface m("FiltrMe");
+  m.addService(new FilteringService);
 
-  m.run ();
+  m.run();
 
   return app.exec ();
 }
